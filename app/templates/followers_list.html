@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ user.username }} kişisinin {{ title }}</h1>
+    <hr>
+    {% for member in user_list %}
+        <table class="table table-hover">
+            <tr>
+                <td width="64px">
+                    <img src="{{ member.avatar(64) }}">
+                </td>
+                <td>
+                    <a href="{{ url_for('user', username=member.username) }}">
+                        <strong>{{ member.username }}</strong>
+                    </a>
+                    <br>
+                    {{ member.about_me or "" }}
+                </td>
+            </tr>
+        </table>
+    {% else %}
+        <p>Henüz kimse yok.</p>
+    {% endfor %}
+{% endblock %}

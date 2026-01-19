@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <table class="table table-hover">
+        <tr>
+            <td width="156px"><img src="{{ user.avatar(128) }}"></td>
+            <td>
+                <h1>Kullanıcı: {{ user.username }}</h1>
+                
+                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+                {% if user.last_seen %}
+                <p>Son görülme: {{ user.last_seen.strftime('%d.%m.%Y %H:%M') }}</p>
+                {% endif %}
+                
+                <p>
+                    <a href="{{ url_for('followers_list', username=user.username) }}">
+                        {{ user.followers_count() }} Takipçi
+                    </a> | 
+                    <a href="{{ url_for('followed_list', username=user.username) }}">
+                        {{ user.following_count() }} Takip Edilen
+                    </a>
+                </p>
+
+                {% if user == current_user %}
+                    <p><a href="{{ url_for('edit_profile') }}" class="btn btn-secondary">Profili Düzenle</a></p>
+                {% elif not current_user.is_following(user) %}
+                    <p>
+                        <form action="{{ url_for('follow', username=user.username) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            {{ form.submit(value='Takip Et', class='btn btn-primary') }}
+                        </form>
+                    </p>
+                {% else %}
+                    <p>
+                        <form action="{{ url_for('unfollow', username=user.username) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            {{ form.submit(value='Takibi Bırak', class='btn btn-danger') }}
+                        </form>
+                    </p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <h3>{{ user.username }} tarafından yapılan paylaşımlar:</h3>
+    {% for post in posts %}
+        {% include '_post.html' %}
+    {% else %}
+        <p>Bu kullanıcı henüz bir paylaşımda bulunmadı.</p>
+    {% endfor %}
+
+{% endblock %}
