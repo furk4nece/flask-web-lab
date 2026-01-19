@@ -1,64 +1,54 @@
 # Flask Web Lab
 
-Flask kullanılarak geliştirilmiş bir web uygulaması.
-Bu proje temel web geliştirme kavramlarını uygulamalı olarak göstermeyi amaçlar.
+Bu proje, Python ve Flask web çatısı kullanılarak geliştirilmiş modüler yapıda bir web uygulamasıdır. Proje, ölçeklenebilir bir yapı sunan "Application Factory" tasarım desenini kullanmaktadır.
 
-Routing vardır.
-Veritabanı vardır.
-Migration vardır.
-Konfigürasyon ayrımı vardır.
+## 📂 Proje Yapısı
 
-## 🚀 Kullanılan Teknolojiler
+* `app/`: Uygulamanın ana kaynak kodlarını (modeller, rotalar, şablonlar) barındıran klasör.
+* `migrations/`: Veritabanı şema değişikliklerini takip eden migrasyon dosyaları (Flask-Migrate).
+* `web_lab.py`: Uygulamanın giriş noktası (Entry point).
+* `config.py`: Uygulama konfigürasyon ve ortam ayarları.
 
-- Python 3
-- Flask
-- Flask-Migrate
-- SQLite
-- HTML
-- CSS
-- Jinja2
+## 🚀 Kurulum
 
-## 📁 Proje Yapısı
+Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin.
 
-flask-web-lab/
-│
-├── app/
-│ ├── routes/
-│ ├── models/
-│ ├── templates/
-│ ├── static/
-│ └── init.py
-│
-├── migrations/
-├── logs/
-├── config.py
-├── web_lab.py
-├── .flaskenv
-└── README.md
+### 1. Projeyi Klonlayın
 
-
-## ⚙️ Kurulum
-
-```bash
-git clone https://github.com/furk4nece/flask-web-lab.git
+git clone [https://github.com/furk4nece/flask-web-lab.git](https://github.com/furk4nece/flask-web-lab.git)
 cd flask-web-lab
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
 
-Windows:
+### 2. Sanal Ortam (Virtual Environment) Oluşturun
+Bağımlılıkları izole etmek için bir sanal ortam oluşturmanız önerilir.
+
+Windows için:
+python -m venv venv
 venv\Scripts\activate
 
-▶️ Çalıştırma
+macOS / Linux için:
+python3 -m venv venv
+source venv/bin/activate
+
+3. Gereksinimleri Yükleyin
+Projede migrations klasörü bulunduğundan Flask'ın yanı sıra veritabanı araçlarına da ihtiyacınız olacaktır. Eğer repoda requirements.txt dosyası yoksa temel paketleri şu şekilde yükleyebilirsiniz:
+pip install flask flask-sqlalchemy flask-migrate
+
+⚙️ Yapılandırma
+config.py dosyasındaki ayarların geçerli olduğundan emin olun. Gerekirse proje ana dizininde bir .env dosyası oluşturarak gizli anahtarları (SECRET_KEY) ve veritabanı URL'sini (DATABASE_URL) tanımlayabilirsiniz.
+
+▶️ Uygulamayı Çalıştırma
+Uygulamayı başlatmak için terminalde aşağıdaki komutları kullanabilirsiniz:
+
+Yöntem 1: Flask Komutu ile
+export FLASK_APP=web_lab.py
+# Windows CMD için: set FLASK_APP=web_lab.py
+# Windows PowerShell için: $env:FLASK_APP = "web_lab.py"
 flask run
 
-Tarayıcıdan aç:
-http://127.0.0.1:5000
+Yöntem 2: Python Komutu ile
+python web_lab.py
 
-🗄️ Veritabanı
-
-SQLite kullanır
-Migration sistemi aktiftir
-Local veritabanı GitHub’a dahil edilmez
-flask db migrate -m "initial"
+🗄️ Veritabanı İşlemleri (Opsiyonel)
+Eğer veritabanı modelinde değişiklik yaparsanız, değişiklikleri uygulamak için:
+flask db migrate -m "Değişiklik açıklaması"
 flask db upgrade
